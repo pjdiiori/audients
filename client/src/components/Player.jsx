@@ -31,21 +31,25 @@ export const Player = ({ audient }) => {
     const [volume, setVolume] = useState(0.5);
     const [volDisplay, setVolDisplay] = useState("vol")
     const [rate, setRate] = useState(1);
-    const [delay, setDelay] = useState(1000)
     const [rateDisplay, setRateDisplay] = useState("rate")
-    const [looping, setLooping] = useState(false)
+    const [delay, setDelay] = useState(1000)
+    const [looping, setLooping] = useState(true);
 
     const handleLoad = ({ wavesurfer }) => {
         setWavesurfer(wavesurfer);
         setDuration(Math.round(wavesurfer.getDuration()));
     }
 
-    const handleClick = () => {
+    const playPause = () => {
         setIsPlaying(!isPlaying);
-        wavesurfer.on('play', () => setIcon(pause))
+        wavesurfer.on('play', () => {
+            setIcon(pause);
+        })
         wavesurfer.on('pause', () => setIcon(play))
-        // console.log(wavesurfer.getPlaybackRate());
-        // console.log(wavesurfer.getCurrentTime());
+    }
+
+    const updateDuration = () => {
+        setDuration(Math.floor(wavesurfer.getDuration() - wavesurfer.getCurrentTime()))
     }
 
     const handleVolume = (e) => {
@@ -63,25 +67,57 @@ export const Player = ({ audient }) => {
         setLooping(!looping)
     }
 
-    const showTicks = (min, max, step) => {
-        const arr = [];
-        for (let i = min; i <= max; i += step) {
-            arr.push(i);
+    const seekStart = () => {
+        if(isPlaying){
+            playPause();
         }
-        return arr.map(x => <option key={x} value={x}></option>)
+        wavesurfer.seekTo(0);
+        setDuration(Math.round(wavesurfer.getDuration()))
+    }
+
+    const seekSkip = () => {
+        const d = wavesurfer.getDuration();
+        d > 60 ? wavesurfer.skip(Math.sqrt(d)) : wavesurfer.skip(d/8);
+        updateDuration();
+    }
+
+    const inputRate = () => {
+        const handleInput = (e) => {
+            if(e.key === 'Enter'){
+                setRateDisplay("rate");
+                if(isNaN(e.target.valueAsNumber)){
+                    setRate(1);
+                } else setRate(e.target.valueAsNumber);
+            } else if (e.key === "Escape") setRateDisplay("rate");
+        }
+
+        const input =
+                <div className="input-group ">
+                    <input
+                        min={0.5}
+                        max={2}
+                        step={0.01}
+                        type="number"
+                        className="form-control border-0 p-0 m-0"
+                        autoFocus
+                        onKeyDown={handleInput}
+                    />
+                </div>
+
+        setRateDisplay(input);
     }
 
     useInterval(() => {
         if (isPlaying) {
-            setDuration(duration - 1);
+            updateDuration();
             wavesurfer.on('finish', () => {
                 setDuration(Math.round(wavesurfer.getDuration()));
-                wavesurfer.seekTo(0)
-                setIsPlaying(looping);
+                if(looping === false){
+                    setIsPlaying(false);
+                    wavesurfer.seekTo(0);
+                } else setIsPlaying(true);
             })
         }
-        // give this an inverse relationship.
-        // rate at 2x should be a 500 delay, 0.5x should be a 2000 delay
     }, delay);
 
     const format = (duration) => {
@@ -91,20 +127,36 @@ export const Player = ({ audient }) => {
         return timeString;
     }
 
+    const showTicks = (min, max, step) => {
+        const arr = [];
+        for (let i = min; i <= max; i += step) {
+            arr.push(i);
+        }
+        return arr.map(x => <option key={x} value={x}></option>)
+    }
+
     return (
         <div className="card mb-5 font-2">
             <div className="row no-gutters">
                 <div className="col-auto">
                     <button
                         className="btn btn-warning mr-2"
-                        onClick={handleClick}
-                    >
-                        <h1 className="display-1">
-                            {icon}
-                        </h1>
+                        onClick={playPause}
+                    ><h1 className="display-1">
+                        {icon}
+                    </h1>
                     </button>
                 </div>
-
+                <button
+                    className="btn btn-sm btn-warning start"
+                    onClick={seekStart}
+                ><i className="fas fa-fast-backward"></i>
+                </button>
+                <button
+                    className="btn btn-sm btn-warning skip"
+                    onClick={seekSkip}
+                ><i className="fas fa-forward"></i>
+                </button>
                 <div className="col-auto controls">
                     <label className="mb-0 mt-1 mx-1 font-1" htmlFor="volume">{volDisplay}</label>
                     <input
@@ -128,7 +180,12 @@ export const Player = ({ audient }) => {
                 </div>
 
                 <div className="col-auto controls">
-                    <label className="mb-0 mt-1 mx-1 font-1" htmlFor="rate">{rateDisplay}</label>
+                    <label
+                        className="mb-0 mt-1 mx-1 font-1"
+                        htmlFor="rate"
+                        onDoubleClick={inputRate}
+                        >{rateDisplay}
+                    </label>
                     <input
                         list="r-tick"
                         name="rate"
@@ -167,6 +224,7 @@ export const Player = ({ audient }) => {
                             onReady={(wavesurfer) => handleLoad(wavesurfer)}
                             audioFile={audient.src}
                             className="react-waves"
+                            onPosChange={updateDuration}
                             options={{
                                 audioRate: rate,
                                 barHeight: 1,
@@ -178,7 +236,7 @@ export const Player = ({ audient }) => {
                                 progressColor: "#EC407A",
                                 responsive: true,
                                 waveColor: "#D1D6DA",
-                                hideScrollbar: true
+                                hideScrollbar: true,
                             }}
                             volume={volume}
                             playing={isPlaying}

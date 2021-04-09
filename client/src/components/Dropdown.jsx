@@ -5,7 +5,7 @@ import { AudientsContext } from "../context/AudientsContext";
 import FileSaver, { saveAs } from "file-saver";
 
 const Dropdown = (props) => {
-    const [active, activate] = useState({ selected: "", loopText: "loop" })
+    const [active, activate] = useState({ selected: "active", loopText: "unloop" })
     const { audients, setAudients } = useContext(AudientsContext);
     const { audient, handleLooping } = props;
 

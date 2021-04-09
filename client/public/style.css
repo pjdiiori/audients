@@ -29,6 +29,21 @@ input[type="range"] {
     height: 103px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+    height: max-content;
+}
+
+input[type=number]:focus {
+    box-shadow: none;
+}
+
 label {
     transform: rotate(-45deg);
 }
@@ -42,13 +57,23 @@ label {
     width: 150px;
 }
 
+.start {
+    position: absolute;
+    bottom: -0.1%;
+}
+
+.skip {
+    position: absolute;
+    bottom: -0.1%;
+    left: 90px;
+}
+
 .styles_reactWaves__1M36F.react-waves {
     margin: 0px;
     padding: 0px;
     width: 100%;
     position: static;
 }
-
 
 .dropdown {
     position: absolute; 
