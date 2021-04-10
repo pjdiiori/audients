@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Dropdown from "./Dropdown";
 import ReactWaves from "@dschoon/react-waves";
+import Range from './Range';
 
 const play = <i className="far fa-play-circle"></i>
 const pause = <i className="far fa-pause-circle"></i>
@@ -28,10 +29,8 @@ export const Player = ({ audient }) => {
     const [wavesurfer, setWavesurfer] = useState(null);
     const [icon, setIcon] = useState(play);
     const [duration, setDuration] = useState(0);
-    const [volume, setVolume] = useState(0.5);
-    const [volDisplay, setVolDisplay] = useState("vol")
+    const [volume, setVolume] = useState(.5);
     const [rate, setRate] = useState(1);
-    const [rateDisplay, setRateDisplay] = useState("rate")
     const [delay, setDelay] = useState(1000)
     const [looping, setLooping] = useState(true);
 
@@ -52,15 +51,13 @@ export const Player = ({ audient }) => {
         setDuration(Math.floor(wavesurfer.getDuration() - wavesurfer.getCurrentTime()))
     }
 
-    const handleVolume = (e) => {
-        setVolume(e.target.valueAsNumber);
-        setVolDisplay(`${e.target.valueAsNumber * 100}%`);
+    const handleVolume = (value) => {
+        setVolume(value);
     }
 
-    const handleRate = (e) => {
-        setDelay(e.target.valueAsNumber**-1*1000);
-        setRate(e.target.valueAsNumber)
-        setRateDisplay(e.target.value + 'x')
+    const handleRate = (value) => {
+        setDelay(value**-1 * 1000);
+        setRate(value)
     }
 
     const handleLooping = () => {
@@ -81,32 +78,6 @@ export const Player = ({ audient }) => {
         updateDuration();
     }
 
-    const inputRate = () => {
-        const handleInput = (e) => {
-            if(e.key === 'Enter'){
-                setRateDisplay("rate");
-                if(isNaN(e.target.valueAsNumber)){
-                    setRate(1);
-                } else setRate(e.target.valueAsNumber);
-            } else if (e.key === "Escape") setRateDisplay("rate");
-        }
-
-        const input =
-                <div className="input-group ">
-                    <input
-                        min={0.5}
-                        max={2}
-                        step={0.01}
-                        type="number"
-                        className="form-control border-0 p-0 m-0"
-                        autoFocus
-                        onKeyDown={handleInput}
-                    />
-                </div>
-
-        setRateDisplay(input);
-    }
-
     useInterval(() => {
         if (isPlaying) {
             updateDuration();
@@ -125,14 +96,6 @@ export const Player = ({ audient }) => {
         const secs = duration <= 0 ? 0 : duration - (mins * 60);
         const timeString = mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
         return timeString;
-    }
-
-    const showTicks = (min, max, step) => {
-        const arr = [];
-        for (let i = min; i <= max; i += step) {
-            arr.push(i);
-        }
-        return arr.map(x => <option key={x} value={x}></option>)
     }
 
     return (
@@ -157,56 +120,25 @@ export const Player = ({ audient }) => {
                     onClick={seekSkip}
                 ><i className="fas fa-forward"></i>
                 </button>
-                <div className="col-auto controls">
-                    <label className="mb-0 mt-1 mx-1 font-1" htmlFor="volume">{volDisplay}</label>
-                    <input
-                        list="v-tick"
-                        name="volume"
-                        title="volume"
-                        type="range"
-                        className="form-control-range mt-1 ml-1"
-                        orient="vertical"
-                        onChange={e => handleVolume(e)}
-                        onMouseDown={e => setVolDisplay(`${e.target.valueAsNumber * 100}%`)}
-                        onMouseUp={() => setVolDisplay("vol")}
-                        min={0}
-                        max={1}
-                        step={0.1}
-                        value={volume}
-                    />
-                    <datalist id="v-tick">
-                        {showTicks(0, 1, 0.1)}
-                    </datalist>
-                </div>
-
-                <div className="col-auto controls">
-                    <label
-                        className="mb-0 mt-1 mx-1 font-1"
-                        htmlFor="rate"
-                        onDoubleClick={inputRate}
-                        >{rateDisplay}
-                    </label>
-                    <input
-                        list="r-tick"
-                        name="rate"
-                        title="rate"
-                        type="range"
-                        className="form-control-range mt-1 ml-1"
-                        orient="vertical"
-                        onChange={e => handleRate(e)}
-                        onMouseDown={(e) => setRateDisplay(e.target.value + 'x')}
-                        onMouseUp={() => setRateDisplay("rate")}
-                        min={0.5}
-                        max={2}
-                        step={0.01}
-                        value={rate}
-                    />
-                    <datalist id="r-tick">
-                        <option value="0.5"></option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                    </datalist>
-                </div>
+                <Range
+                    name="vol"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    tickStep={0.1}
+                    value={volume}
+                    handler={handleVolume}
+                    displayStyle="percent"
+                />
+                <Range
+                    name="rate"
+                    min={0.5}
+                    max={2}
+                    step={0.01}
+                    tickStep={0.5}
+                    value={rate}
+                    handler={handleRate}
+                />
 
                 <div className="overflow-auto">
                     <div className="card-body pt-3 pb-0 pr-0 pl-2">
