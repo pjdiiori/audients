@@ -41,9 +41,7 @@ export const Player = ({ audient }) => {
 
     const playPause = () => {
         setIsPlaying(!isPlaying);
-        wavesurfer.on('play', () => {
-            setIcon(pause);
-        })
+        wavesurfer.on('play', () => setIcon(pause))
         wavesurfer.on('pause', () => setIcon(play))
     }
 
@@ -51,17 +49,9 @@ export const Player = ({ audient }) => {
         setDuration(Math.floor(wavesurfer.getDuration() - wavesurfer.getCurrentTime()))
     }
 
-    const handleVolume = (value) => {
-        setVolume(value);
-    }
-
     const handleRate = (value) => {
         setDelay(value**-1 * 1000);
         setRate(value)
-    }
-
-    const handleLooping = () => {
-        setLooping(!looping)
     }
 
     const seekStart = () => {
@@ -127,7 +117,7 @@ export const Player = ({ audient }) => {
                     step={0.01}
                     tickStep={0.1}
                     value={volume}
-                    handler={handleVolume}
+                    handler={value => setVolume(value)}
                     displayStyle="percent"
                 />
                 <Range
@@ -177,7 +167,7 @@ export const Player = ({ audient }) => {
                 </div>
             </div>
             <Dropdown
-                handleLooping={handleLooping}
+                handleLooping={() => setLooping(!looping)}
                 audient={audient}
             />
         </div>
