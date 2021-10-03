@@ -13,7 +13,7 @@ const Range = (props) => {
             if(e.key === 'Enter'){
                 setDisplay(name)
                 if(!isNaN(value)){
-                    handler(value);
+                  handler(value);
                 }
             } else if (e.key === "Escape") setDisplay(name);
         }
