@@ -43,11 +43,12 @@ const Range = (props) => {
   };
 
   const handleChange = (e) => {
-    handler(e.target.valueAsNumber);
+    const { valueAsNumber } = e.target;
+    handler(valueAsNumber);
     if (displayStyle === "percent") {
-      setDisplay(e.target.valueAsNumber * 100 + "%");
+      setDisplay(Math.round(valueAsNumber * 100) + "%");
     } else {
-      setDisplay(e.target.value + "x");
+      setDisplay(valueAsNumber + "x");
     }
   };
 
