@@ -6,7 +6,7 @@ const Range = (props) => {
     min,
     max,
     step,
-    tickStep = step,
+    tickStep,
     value,
     handler,
     displayStyle,
@@ -55,7 +55,7 @@ const Range = (props) => {
   const showTicks = (min, max, tickStep) => {
     const arr = [];
     for (let i = min; i <= max; i += tickStep) {
-      arr.push(i);
+      arr.push(Math.round(i*10)/10);
     }
     return arr.map((x) => <option key={x} value={x}></option>);
   };
