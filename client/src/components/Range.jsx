@@ -16,11 +16,10 @@ const Range = (props) => {
   const labelToInput = () => {
     const handleInput = (e) => {
       const { valueAsNumber } = e.target;
-      let value = displayStyle === "percent" ? (valueAsNumber / 100) : valueAsNumber;
-      value > max
-        ? (value = max)
-        : value < min
-        && (value = min)
+      let value =
+        displayStyle === "percent" ? valueAsNumber / 100 : valueAsNumber;
+      // ensure value is never greater than max or less than min
+      value > max ? (value = max) : value < min && (value = min);
       if (e.key === "Enter") {
         setDisplay(name);
         if (!isNaN(value)) {
@@ -62,6 +61,7 @@ const Range = (props) => {
 
   return (
     <div className="col-auto controls">
+      {/* label / input */}
       <label
         htmlFor={name}
         className="mb-0 mt-1 mx-1 font-1"
@@ -70,6 +70,7 @@ const Range = (props) => {
         {display}
       </label>
 
+      {/* the slider */}
       <input
         name={name}
         title={name}

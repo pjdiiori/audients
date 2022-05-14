@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import audientFinder from "../apis/audientFinder";
 import { AudientsContext } from "../context/AudientsContext";
-import FileSaver, { saveAs } from "file-saver";
+import FileSaver from "file-saver";
 
 const Dropdown = (props) => {
   const [active, activate] = useState({

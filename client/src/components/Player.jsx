@@ -75,7 +75,7 @@ export const Player = ({ audient }) => {
       updateDuration();
       wavesurfer.on("finish", () => {
         setDuration(Math.round(wavesurfer.getDuration()));
-        if (looping === false) {
+        if (!looping) {
           setIsPlaying(false);
           wavesurfer.seekTo(0);
         } else setIsPlaying(true);
@@ -151,7 +151,6 @@ export const Player = ({ audient }) => {
                 barRadius: 3,
                 cursorWidth: 2,
                 height: 101,
-                hideScrollbar: false,
                 progressColor: "#EC407A",
                 responsive: true,
                 waveColor: "#D1D6DA",
