@@ -65,7 +65,7 @@ const Range = (props) => {
       <label
         htmlFor={name}
         className="mb-0 mt-1 mx-1 font-1"
-        onDoubleClick={labelToInput}
+        onClick={labelToInput}
       >
         {display}
       </label>

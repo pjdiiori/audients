@@ -48,6 +48,11 @@ label {
   transform: rotate(-45deg);
 }
 
+label:hover {
+  font-weight: bold;
+  text-shadow: 2px 2px 2px #EC407A;
+}
+
 .controls {
   width: 32px;
 }
