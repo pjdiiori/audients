@@ -1,32 +1,32 @@
 .fa-compact-disc {
-    animation: 1.5s linear infinite rotate;
+  animation: 1.5s linear infinite rotate;
 }
 
 @keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .heading {
-    font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
 }
 
 .font-1 {
-    font-family: 'Lora', serif;
+  font-family: "Lora", serif;
 }
 
 .font-2 {
-    font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 input[type="range"] {
-    writing-mode: bt-lr;
-    -webkit-appearance: slider-vertical;
-    width: 6px;
-    height: 103px;
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  width: 6px;
+  height: 103px;
 }
 
 input::-webkit-outer-spin-button,
@@ -35,76 +35,76 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
-    height: max-content;
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  height: max-content;
 }
 
-input[type=number]:focus {
-    box-shadow: none;
+input[type="number"]:focus {
+  box-shadow: none;
 }
 
 label {
-    transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .controls {
-    width: 32px;
+  width: 32px;
 }
 
 .overflow-auto {
-    height: 125px;
-    width: 150px;
+  height: 125px;
+  width: 150px;
 }
 
 .start {
-    position: absolute;
-    bottom: -0.1%;
+  position: absolute;
+  bottom: -0.1%;
 }
 
 .skip {
-    position: absolute;
-    bottom: -0.1%;
-    left: 90px;
+  position: absolute;
+  bottom: -0.1%;
+  left: 90px;
 }
 
 .styles_reactWaves__1M36F.react-waves {
-    margin: 0px;
-    padding: 0px;
-    width: 100%;
-    position: static;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  position: static;
 }
 
 .dropdown {
-    position: absolute; 
-    z-index: 100;
-    right: -0.1%;
+  position: absolute;
+  z-index: 100;
+  right: -0.1%;
 }
 
 .loop {
-    background: rgba(0, 110, 255, 0.15);
+  background: rgba(0, 110, 255, 0.15);
 }
 
 .loop:hover {
-    background: rgba(0, 110, 255, 0.6);
+  background: rgba(0, 110, 255, 0.6);
 }
 
 .download {
-    background: rgba(0, 135, 145, 0.15);
+  background: rgba(0, 135, 145, 0.15);
 }
 
 .download:hover {
-    background: rgba(0, 135, 145, 0.6);
+  background: rgba(0, 135, 145, 0.6);
 }
 
 .delete {
-    background: rgba(255, 0, 0, 0.15);
+  background: rgba(255, 0, 0, 0.15);
 }
 
 .delete:hover {
-    background: rgba(255, 0, 0, 0.6);
+  background: rgba(255, 0, 0, 0.6);
 }
 
 p {
-    margin: 0px;
+  margin: 0px;
 }
