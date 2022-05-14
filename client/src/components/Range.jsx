@@ -15,13 +15,12 @@ const Range = (props) => {
 
   const labelToInput = () => {
     const handleInput = (e) => {
-      let value = e.target.valueAsNumber;
-      displayStyle === "percent" ? (value /= 100) : (value = value);
+      const { valueAsNumber } = e.target;
+      let value = displayStyle === "percent" ? (valueAsNumber / 100) : valueAsNumber;
       value > max
         ? (value = max)
         : value < min
-        ? (value = min)
-        : (value = value);
+        && (value = min)
       if (e.key === "Enter") {
         setDisplay(name);
         if (!isNaN(value)) {
