@@ -90,8 +90,16 @@ label:hover {
   background: rgba(0, 110, 255, 0.15);
 }
 
-.loop:hover {
+.loop:hover, .loop.active {
   background: rgba(0, 110, 255, 0.6);
+}
+
+.djMode {
+  background: rgba(123, 0, 255, 0.15);
+}
+
+.djMode:hover, .djMode.active {
+  background: rgba(123, 0, 255, 0.6);
 }
 
 .download {

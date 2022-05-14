@@ -81,7 +81,7 @@ const Dropdown = (props) => {
           className={`dropdown-item pl-3 djMode ${djMode.active}`}
           onClick={toggleDjMode}
         >
-          <i className="fas fa-recycle"></i> DJ Mode {djMode.text}
+          <i className="fas fa-headphones"></i> DJ Mode {djMode.text}
         </button>
         
         {/* LOOPING */}
