@@ -4,19 +4,42 @@ import { AudientsContext } from "../context/AudientsContext";
 import FileSaver from "file-saver";
 
 const Dropdown = (props) => {
-  const [active, activate] = useState({
-    selected: "active",
-    loopText: "unloop",
+  const [looping, activateLooping] = useState({
+    active: "active",
+    text: "unloop",
   });
+  const [djMode, activateDjMode] = useState({
+    active: false,
+    text: "OFF"
+  })
   const { audients, setAudients } = useContext(AudientsContext);
-  const { audient, handleLooping } = props;
+  const { audient, handleLooping, handleDjMode } = props;
 
-  const toggleLoop = () => {
+  const toggleLooping = () => {
     handleLooping();
-    !active.selected
-      ? activate({ selected: "active", loopText: "unloop" })
-      : activate({ selected: "", loopText: "loop" });
+    if (!looping.active) {
+      // activate looping
+      activateLooping({ active: "active", text: "unloop" });
+      // deactivate DJ Mode
+      activateDjMode({ active: false, text: "OFF"});
+    } else {
+      // deactivate looping
+      activateLooping({ active: false, text: "loop" });
+    }
   };
+
+  const toggleDjMode = () => {
+    handleDjMode();
+    if(!djMode.active){
+      // activate DJ Mode
+      activateDjMode({ active: "active", text: "ON" })
+      // deactivate Looping
+      activateLooping({ active: false, text: "loop" })
+    } else {
+      // deactivate DJ Mode
+      activateDjMode({ active: false, text: "OFF"});
+    }
+  }
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this track?")) {
@@ -51,13 +74,25 @@ const Dropdown = (props) => {
       >
         <h6 className="dropdown-header pl-2 pb-0">options</h6>
         <div className="dropdown-divider mb-0"></div>
+        
+        {/* DJ MODE */}
+        <button
+          name="djMode"
+          className={`dropdown-item pl-3 djMode ${djMode.active}`}
+          onClick={toggleDjMode}
+        >
+          <i className="fas fa-recycle"></i> DJ Mode {djMode.text}
+        </button>
+        
+        {/* LOOPING */}
         <button
           name="loop"
-          className={`dropdown-item pl-3 loop ${active.selected}`}
-          onClick={toggleLoop}
+          className={`dropdown-item pl-3 loop ${looping.active}`}
+          onClick={toggleLooping}
         >
-          <i className="fas fa-recycle"></i> {active.loopText}
+          <i className="fas fa-recycle"></i> {looping.text}
         </button>
+        
         <button
           name="download"
           className="dropdown-item pl-3 download"

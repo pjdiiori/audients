@@ -33,6 +33,7 @@ export const Player = ({ audient }) => {
   const [rate, setRate] = useState(1);
   const [delay, setDelay] = useState(1000);
   const [looping, setLooping] = useState(true);
+  const [djMode, setDjMode] = useState(false);
 
   const handleLoad = ({ wavesurfer }) => {
     setWavesurfer(wavesurfer);
@@ -40,9 +41,14 @@ export const Player = ({ audient }) => {
   };
 
   const playPause = () => {
-    setIsPlaying(!isPlaying);
-    wavesurfer.on("play", () => setIcon(pause));
-    wavesurfer.on("pause", () => setIcon(play));
+    if(djMode){
+      seekStart();
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(!isPlaying);
+      wavesurfer.on("play", () => setIcon(pause));
+      wavesurfer.on("pause", () => setIcon(play));
+    }
   };
 
   const updateDuration = () => {
@@ -57,7 +63,7 @@ export const Player = ({ audient }) => {
   };
 
   const seekStart = () => {
-    if (isPlaying) {
+    if (isPlaying && !djMode) {
       playPause();
     }
     wavesurfer.seekTo(0);
@@ -162,7 +168,19 @@ export const Player = ({ audient }) => {
           </div>
         </div>
       </div>
-      <Dropdown handleLooping={() => setLooping(!looping)} audient={audient} />
+      <Dropdown
+        audient={audient}
+        handleLooping={() => {
+            setLooping(!looping)
+            setDjMode(false)
+          }
+        }
+        handleDjMode={() => {
+            setDjMode(!djMode)
+            setLooping(false)
+          }
+        }
+      />
     </div>
   );
 };
